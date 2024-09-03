@@ -19,6 +19,9 @@ spec:
         image: atlassian/jira-software:latest
         ports:
         - containerPort: 8080
+        env:
+        - name: JVM_SUPPORT_RECOMMENDED_ARGS
+          value: "-Dapplinks.allow.all.hosts=true"
         volumeMounts:
         - mountPath: /var/atlassian/application-data/jira
           name: jira-storage

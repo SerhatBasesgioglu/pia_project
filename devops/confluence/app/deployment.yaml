@@ -19,6 +19,9 @@ spec:
         image: atlassian/confluence:latest
         ports:
         - containerPort: 8090
+        env:
+        - name: JVM_SUPPORT_RECOMMENDED_ARGS
+          value: "-Dapplinks.allow.all.hosts=true"
         volumeMounts:
         - mountPath: /var/atlassian/application-data/confluence
           name: confluence-storage
