@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: confluence-deployment
+  labels:
+    app: confluence
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: confluence
+  template:
+    metadata:
+      labels:
+        app: confluence
+    spec:
+      containers:
+      - name: confluence
+        image: atlassian/confluence:latest
+        ports:
+        - containerPort: 8090
+        volumeMounts:
+        - mountPath: /var/atlassian/application-data/confluence
+          name: confluence-storage
+      volumes:
+      - name: confluence-storage
+        persistentVolumeClaim:
+          claimName: confluence-pvc

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: confluence-postgres-deployment
+  labels:
+    app: confluence-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: confluence-postgres
+  template:
+    metadata:
+      labels:
+        app: confluence-postgres
+    spec:
+      containers:
+      - name: confluence-postgres
+        image: postgres:latest
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: confluence-db
+        - name: POSTGRES_USER
+          value: confluence-user
+        - name: POSTGRES_PASSWORD
+          value: confluence-password
+        volumeMounts:
+        - mountPath: "/var/lib/postgresql/data"
+          name: "confluence-postgres-storage"
+      volumes:
+      - name: confluence-postgres-storage
+        persistentVolumeClaim:
+          claimName: confluence-postgres-pvc
