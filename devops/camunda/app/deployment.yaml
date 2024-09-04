@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: camunda-deployment
+  labels:
+    app: camunda
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: camunda
+  template:
+    metadata:
+      labels:
+        app: camunda
+    spec:
+      containers:
+      - name: camunda
+        image: camunda/camunda-bpm-platform:latest
+        ports:
+        - containerPort: 8080
+          #volumeMounts:
+          #- mountPath: /camunda
+          #  name: camunda-storage
+      # volumes:
+      #- name: camunda-storage
+      #  persistentVolumeClaim:
+#  claimName: camunda-pvc
