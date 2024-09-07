@@ -7,7 +7,7 @@ spec:
     app: confluence
   ports:
   - protocol: TCP
-    port: 30100
+    port: 8090
     targetPort: 8090
-    nodePort: 30100
+    nodePort: 30001
   type: NodePort

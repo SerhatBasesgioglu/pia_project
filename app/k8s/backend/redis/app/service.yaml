@@ -7,7 +7,6 @@ spec:
     app: redis
   ports:
   - protocol: TCP
-    port: 31100
+    port: 6379
     targetPort: 6379
-    nodePort: 31100
-  type: NodePort
+  type: ClusterIP

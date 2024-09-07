@@ -7,7 +7,7 @@ spec:
     app: jira
   ports:
   - protocol: TCP
-    port: 30000
+    port: 8080
     targetPort: 8080
     nodePort: 30000
   type: NodePort

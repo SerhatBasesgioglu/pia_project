@@ -8,5 +8,5 @@ spec:
   capacity:
     storage: 500Mi
   hostPath:
-    path: /run/desktop/mnt/host/c/pia_data/devops/auth/db
+    path: /run/desktop/mnt/host/c/pia_data/app/backend/auth/db
   storageClassName: hostpath

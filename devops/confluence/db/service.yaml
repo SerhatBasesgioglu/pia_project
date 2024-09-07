@@ -7,7 +7,7 @@ spec:
     app: confluence-postgres
   ports:
   - protocol: TCP
-    port: 30101
+    port: 5432
     targetPort: 5432
   type: ClusterIP
 

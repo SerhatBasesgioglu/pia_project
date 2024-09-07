@@ -7,7 +7,7 @@ spec:
     app: camunda
   ports:
   - protocol: TCP
-    port: 30300
+    port: 8080
     targetPort: 8080
-    nodePort: 30300
+    nodePort: 30003
   type: NodePort
