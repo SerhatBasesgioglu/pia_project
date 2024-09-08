@@ -1,4 +1,4 @@
-package com.serhat.user.Model;
+package com.serhat.user.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -13,5 +13,6 @@ public class User {
 
     private String name;
     private String email;
+    private String password;
 
 }
