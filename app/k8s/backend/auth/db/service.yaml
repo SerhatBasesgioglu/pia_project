@@ -7,7 +7,7 @@ spec:
     app: auth-postgres
   ports:
   - protocol: TCP
-    port: 31000
+    port: 5432
     targetPort: 5432
   type: ClusterIP
 
