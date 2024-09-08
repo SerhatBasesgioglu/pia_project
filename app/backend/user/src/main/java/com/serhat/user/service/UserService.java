@@ -27,18 +27,32 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public List<UserResponse> getUsersByEmail(String email) {
+        List<User> userList = userRepository.findByEmail(email);
+        return userList.stream()
+                .map(user -> modelMapper.map(user, UserResponse.class))
+                .collect(Collectors.toList());
+    }
+
     public UserResponse getUser(Long id) {
         User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
         return modelMapper.map(user, UserResponse.class);
     }
 
     public UserResponse createUser(UserRequest user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+        if (userRepository.existsByName(user.getName())) {
+            throw new IllegalArgumentException("Name already exists");
+        }
         User newUser = modelMapper.map(user, User.class);
         User createdUser = userRepository.save(newUser);
-        return modelMapper.map(newUser, UserResponse.class);
+        return modelMapper.map(createdUser, UserResponse.class);
     }
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
 }

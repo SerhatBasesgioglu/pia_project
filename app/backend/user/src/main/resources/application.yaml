@@ -5,5 +5,5 @@ spring:
     password: dev-password
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
