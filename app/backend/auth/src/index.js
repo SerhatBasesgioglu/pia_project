@@ -72,7 +72,7 @@ app.post("/register", async (req, res) => {
     const nameResponse = await axios.get(`http://localhost:8080/users?${nameQuery}`);
     const emailResponse = await axios.get(`http://localhost:8080/users?${emailQuery}`);
 
-    if (emailResponse.data) {
+    if (emailResponse.data[0]) {
       return res.send("This email has been registered");
     }
     if (nameResponse.data[0]) {
