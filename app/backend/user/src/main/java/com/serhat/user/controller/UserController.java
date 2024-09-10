@@ -18,13 +18,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> getAllUsers(@RequestParam(required = false) String email) {
-        List<UserResponse> users;
-        if (email != null && !email.isEmpty()) {
-            users = userService.getUsersByEmail(email);
-        } else {
-            users = userService.getAllUsers();
-        }
+    public ResponseEntity<List<UserResponse>> getUsers(@RequestParam(required = false) String email,
+                                                       @RequestParam(required = false) String name) {
+        List<UserResponse> users = userService.getUsers(email, name);
         return ResponseEntity.ok(users);
     }
 

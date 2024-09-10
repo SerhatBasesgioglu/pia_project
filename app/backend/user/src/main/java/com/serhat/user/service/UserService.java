@@ -2,6 +2,7 @@ package com.serhat.user.service;
 
 import com.serhat.user.dto.UserRequest;
 import com.serhat.user.dto.UserResponse;
+import com.serhat.user.exception.UserAlreadyExistsException;
 import com.serhat.user.model.User;
 import com.serhat.user.repository.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -20,11 +21,15 @@ public class UserService {
         this.modelMapper = modelMapper;
     }
 
-    public List<UserResponse> getAllUsers() {
-        List<User> userList = (List<User>) userRepository.findAll();
-        return userList.stream()
+    public List<UserResponse> getUsers(String email, String name) {
+        List<User> allUsers = (List<User>) userRepository.findAll();
+        List<User> filteredUsers = allUsers.stream()
+                .filter(user -> email == null || email.isEmpty() || user.getEmail().equals(email))
+                .filter(user -> name == null || name.isEmpty() || user.getName().equals(name))
+                .toList();
+        return filteredUsers.stream()
                 .map(user -> modelMapper.map(user, UserResponse.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<UserResponse> getUsersByEmail(String email) {
@@ -35,16 +40,16 @@ public class UserService {
     }
 
     public UserResponse getUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(RuntimeException::new);
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("This id does not exist"));
         return modelMapper.map(user, UserResponse.class);
     }
 
     public UserResponse createUser(UserRequest user) {
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new UserAlreadyExistsException("Email already exists");
         }
         if (userRepository.existsByName(user.getName())) {
-            throw new IllegalArgumentException("Name already exists");
+            throw new UserAlreadyExistsException("Name already exists");
         }
         User newUser = modelMapper.map(user, User.class);
         User createdUser = userRepository.save(newUser);
@@ -52,7 +57,9 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+        User user = modelMapper.map(getUser(id), User.class);
+        userRepository.delete(user);
+
     }
 
 }
